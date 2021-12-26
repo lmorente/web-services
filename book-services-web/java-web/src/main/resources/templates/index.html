@@ -1,0 +1,15 @@
+<html>
+<body>
+	<h1>Libros</h1>
+	{{#books}}
+	<a href="book/{{id}}">{{title}}</a><br>
+	{{/books}}
+	
+	{{^books}}
+	<p>No hay libros disponibles aún.</p>
+	{{/books}}
+
+	<br>
+	<a href="new_book.html">Nuevo libro</a>
+</body>
+</html>

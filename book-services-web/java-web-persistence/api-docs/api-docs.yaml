@@ -1,0 +1,493 @@
+openapi: 3.0.1
+info:
+  title: Book API REST
+  version: 2.0.0
+servers:
+  - url: http://localhost:8080
+    description: Generated server url
+paths:
+  /books/{idBook}:
+    get:
+      tags:
+        - book-rest-controller
+      summary: Get a book
+      operationId: getBook
+      parameters:
+        - name: idBook
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: The book is retrieved by id
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BookDto'
+        '404':
+          description: The book is not found
+          content:
+            application/json:
+              examples:
+                Response:
+                  description: Response
+                  value: Element has not been found
+    put:
+      tags:
+        - book-rest-controller
+      summary: Modify book
+      operationId: modifyBook
+      parameters:
+        - name: idBook
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BookDto'
+        required: true
+      responses:
+        '200':
+          description: Book is modified
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BookDto'
+        '400':
+          description: The request input is incorrect
+          content:
+            application/json:
+              examples:
+                Response:
+                  description: Response
+                  value: Element has not been found
+        '404':
+          description: Not Found
+          content:
+            '*/*':
+              schema:
+                type: string
+    delete:
+      tags:
+        - book-rest-controller
+      summary: Delete a book
+      operationId: deleteBook
+      parameters:
+        - name: idBook
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: The book is deleted
+          content:
+            application/json:
+              examples:
+                Response:
+                  description: Response
+                  value: {}
+        '404':
+          description: The book is not found
+          content:
+            application/json:
+              examples:
+                Response:
+                  description: Response
+                  value: Element has not been found
+  /users:
+    post:
+      tags:
+        - user-rest-controller
+      summary: Create a new user
+      operationId: createUser
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserDto'
+        required: true
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserDto'
+        '404':
+          description: Not Found
+          content:
+            '*/*':
+              schema:
+                type: string
+  /books:
+    get:
+      tags:
+        - book-rest-controller
+      summary: Get all the books
+      operationId: getAllBooks
+      responses:
+        '200':
+          description: Found all the books
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BookDto_Basic'
+              examples:
+                Book:
+                  summary: Books info
+                  description: Book
+                  value:
+                    - id: 0
+                      title: Manolito Gafotas
+                    - id: 1
+                      title: El señor de los anillos
+        '404':
+          description: Not Found
+          content:
+            '*/*':
+              schema:
+                type: string
+    post:
+      tags:
+        - book-rest-controller
+      summary: Add new book
+      operationId: addBook
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BookDto'
+        required: true
+      responses:
+        '201':
+          description: A new book is created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BookDto'
+        '400':
+          description: The request input is incorrect
+          content:
+            application/json:
+              examples:
+                Response:
+                  description: Response
+                  value: {}
+        '404':
+          description: Not Found
+          content:
+            '*/*':
+              schema:
+                type: string
+  /books/{idBook}/comment:
+    post:
+      tags:
+        - comment-rest-controller
+      summary: Add a new comment
+      operationId: addComment
+      parameters:
+        - name: idBook
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CommentIDto'
+        required: true
+      responses:
+        '200':
+          description: The comment is added
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BookDto'
+        '400':
+          description: The comment input request is wrong
+          content:
+            application/json:
+              examples:
+                Response:
+                  description: Response
+                  value: {}
+        '404':
+          description: The comment is not found
+          content:
+            application/json:
+              examples:
+                Response:
+                  description: Response
+                  value: Element has not been found
+  /users/{nick}:
+    get:
+      tags:
+        - user-rest-controller
+      summary: Get user
+      operationId: getUserByNick
+      parameters:
+        - name: nick
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserDto'
+        '404':
+          description: Not Found
+          content:
+            '*/*':
+              schema:
+                type: string
+    delete:
+      tags:
+        - user-rest-controller
+      summary: Delete user
+      operationId: deleteUser
+      parameters:
+        - name: nick
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: string
+        '404':
+          description: Not Found
+          content:
+            '*/*':
+              schema:
+                type: string
+    patch:
+      tags:
+        - user-rest-controller
+      summary: Modify mail user
+      operationId: modifyMailUser
+      parameters:
+        - name: nick
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MailIDto'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserDto'
+        '404':
+          description: Not Found
+          content:
+            '*/*':
+              schema:
+                type: string
+  /users/{nick}/comments:
+    get:
+      tags:
+        - comment-rest-controller
+      summary: Get comments by user
+      operationId: getAllCommentsByUser
+      parameters:
+        - name: nick
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: The comment is added
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/CommentODto'
+        '404':
+          description: The comment is not found
+          content:
+            application/json:
+              examples:
+                Response:
+                  description: Response
+                  value: Element has not been found
+  /books/{idBook}/comment/{idComment}:
+    get:
+      tags:
+        - comment-rest-controller
+      summary: Get comment
+      operationId: getComment
+      parameters:
+        - name: idBook
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: idComment
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: The comment is added
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/CommentODto'
+        '400':
+          description: The comment input request is wrong
+          content:
+            application/json:
+              examples:
+                Response:
+                  description: Response
+                  value: {}
+        '404':
+          description: The comment is not found
+          content:
+            application/json:
+              examples:
+                Response:
+                  description: Response
+                  value: Element has not been found
+    delete:
+      tags:
+        - comment-rest-controller
+      summary: Delete a comment
+      operationId: deleteComment
+      parameters:
+        - name: idBook
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: idComment
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: The comment is deleted
+          content:
+            application/json:
+              examples:
+                Response:
+                  description: Response
+                  value: {}
+        '404':
+          description: The comment is not found
+          content:
+            application/json:
+              examples:
+                Response:
+                  description: Response
+                  value: Element has not been found
+components:
+  schemas:
+    BookDto:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        title:
+          type: string
+        summary:
+          type: string
+        author:
+          type: string
+        publisher:
+          type: string
+        published:
+          type: string
+          format: date
+        comments:
+          type: array
+          items:
+            $ref: '#/components/schemas/CommentODto'
+    CommentODto:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        idBook:
+          type: integer
+          format: int64
+        user:
+          $ref: '#/components/schemas/UserDto'
+        content:
+          type: string
+        score:
+          type: integer
+          format: int32
+    UserDto:
+      required:
+        - email
+        - nick
+      type: object
+      properties:
+        nick:
+          type: string
+        email:
+          type: string
+    CommentIDto:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        user:
+          type: string
+        content:
+          type: string
+        score:
+          type: integer
+          format: int32
+    MailIDto:
+      required:
+        - email
+      type: object
+      properties:
+        email:
+          type: string
+    BookDto_Basic:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        title:
+          type: string

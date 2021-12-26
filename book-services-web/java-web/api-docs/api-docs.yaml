@@ -1,0 +1,252 @@
+openapi: 3.0.1
+info:
+  title: Book API REST
+  version: 1.0.0
+servers:
+  - url: http://localhost:8080
+    description: Generated server url
+paths:
+  /books:
+    get:
+      tags:
+        - book-rest-controller
+      summary: Get all the books
+      operationId: getAllBooks
+      responses:
+        '200':
+          description: Found all the books
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BookWithComments_Basic'
+              examples:
+                Book:
+                  summary: Books info
+                  description: Book
+                  value:
+                    - id: 0
+                      title: Manolito Gafotas
+                    - id: 1
+                      title: El señor de los anillos
+    post:
+      tags:
+        - book-rest-controller
+      summary: Add a new book
+      operationId: addBook
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Book'
+        required: true
+      responses:
+        '200':
+          description: A new book is created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Book'
+        '400':
+          description: The request input is incorrect
+          content:
+            application/json:
+              examples:
+                Response:
+                  description: Response
+                  value: {}
+  /books/{idBook}/comment:
+    post:
+      tags:
+        - book-rest-controller
+      summary: Add a new comment
+      operationId: addComment
+      parameters:
+        - name: idBook
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Comment'
+        required: true
+      responses:
+        '200':
+          description: The comment is added
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BookWithComments'
+        '400':
+          description: The comment input request is wrong
+          content:
+            application/json:
+              examples:
+                Response:
+                  description: Response
+                  value: {}
+        '404':
+          description: The book is not found
+          content:
+            application/json:
+              examples:
+                Response:
+                  description: Response
+                  value: {}
+  /books/{idBook}:
+    get:
+      tags:
+        - book-rest-controller
+      summary: Get a book
+      operationId: getBook
+      parameters:
+        - name: idBook
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: The book is retrieved by id
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BookWithComments'
+        '404':
+          description: The book is not found
+          content:
+            application/json:
+              examples:
+                Response:
+                  description: Response
+                  value: {}
+    delete:
+      tags:
+        - book-rest-controller
+      summary: Delete a book
+      operationId: deleteBook
+      parameters:
+        - name: idBook
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: The book is deleted
+          content:
+            application/json:
+              examples:
+                Response:
+                  description: Response
+                  value: {}
+        '404':
+          description: The book is not found
+          content:
+            application/json:
+              examples:
+                Response:
+                  description: Response
+                  value: {}
+  /books/{idBook}/comment/{idComment}:
+    delete:
+      tags:
+        - book-rest-controller
+      summary: Delete a comment
+      operationId: deleteComment
+      parameters:
+        - name: idBook
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: idComment
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: The comment is deleted
+          content:
+            application/json:
+              examples:
+                Response:
+                  description: Response
+                  value: {}
+        '404':
+          description: The comment is not found
+          content:
+            application/json:
+              examples:
+                Response:
+                  description: Response
+                  value: {}
+components:
+  schemas:
+    Book:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        title:
+          type: string
+        summary:
+          type: string
+        author:
+          type: string
+        publisher:
+          type: string
+        published:
+          type: string
+          format: date
+    Comment:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        comment:
+          type: string
+        user:
+          type: string
+        score:
+          type: integer
+          format: int32
+    BookWithComments:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        title:
+          type: string
+        summary:
+          type: string
+        author:
+          type: string
+        publisher:
+          type: string
+        published:
+          type: string
+          format: date
+        comments:
+          type: array
+          items:
+            $ref: '#/components/schemas/Comment'
+    BookWithComments_Basic:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        title:
+          type: string
