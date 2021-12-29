@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" href="./client.css">
+    <script type="module" src="./client.js"></script>
+</head>
+
+<body>
+<h1>Eoloplanner:</h1>
+<div id='plants' class="plant"></div>
+
+<h2>Add new plant:</h2>
+<input type="text" id="new">
+<input type='button' value='Create plant' onclick="createPlant()" id="button-save"/>
+<div class="loader" id="spinner" style="display: none"></div>
+</body>
+</html>
