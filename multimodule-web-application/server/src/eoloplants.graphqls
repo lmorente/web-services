@@ -1,0 +1,21 @@
+type Query {
+    eoloPlants: [Plant!]!
+	eoloPlant(id: ID!): Plant
+}
+
+type Mutation {
+    createEoloPlant(eoloPlant: EoloPlantInput): Plant
+    replaceEoloPlant(id: ID!, eoloPlant: EoloPlantInput): Plant
+    deleteEoloPlant(id: ID!): Plant
+}
+
+type Plant {
+    id: ID!
+    city: String!
+    planning: String!
+}
+
+input EoloPlantInput {
+    city: String!
+    socketId: Int!
+}
